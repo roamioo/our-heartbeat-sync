@@ -9,32 +9,56 @@ All colors MUST be HSL.
 @layer base {
   :root {
     --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --foreground: 340 8% 15%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 340 8% 15%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 340 8% 15%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 330 85% 60%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 320 20% 95%;
+    --secondary-foreground: 340 8% 15%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 320 15% 96%;
+    --muted-foreground: 340 8% 45%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 320 20% 95%;
+    --accent-foreground: 340 8% 15%;
 
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 320 13% 91%;
+    --input: 320 13% 91%;
+    --ring: 330 85% 60%;
+
+    /* Romantic color palette */
+    --rose: 330 85% 60%;
+    --rose-light: 330 70% 80%;
+    --rose-dark: 330 85% 45%;
+    --purple: 280 70% 65%;
+    --purple-light: 280 50% 85%;
+    --lavender: 260 40% 90%;
+    --gold: 45 90% 75%;
+    --cream: 30 40% 98%;
+
+    /* Gradients */
+    --gradient-romantic: linear-gradient(135deg, hsl(var(--rose)) 0%, hsl(var(--purple)) 100%);
+    --gradient-subtle: linear-gradient(180deg, hsl(var(--cream)) 0%, hsl(var(--lavender)) 100%);
+    --gradient-card: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.7) 100%);
+
+    /* Shadows */
+    --shadow-romantic: 0 20px 40px -12px hsl(var(--rose) / 0.25);
+    --shadow-soft: 0 10px 30px -10px hsl(var(--purple) / 0.2);
+    --shadow-glow: 0 0 40px hsl(var(--rose-light) / 0.3);
+
+    /* Animations */
+    --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 
     --radius: 0.5rem;
 
@@ -56,33 +80,48 @@ All colors MUST be HSL.
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+    --background: 340 15% 8%;
+    --foreground: 320 20% 95%;
 
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
+    --card: 340 15% 10%;
+    --card-foreground: 320 20% 95%;
 
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 340 15% 10%;
+    --popover-foreground: 320 20% 95%;
 
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+    --primary: 330 85% 65%;
+    --primary-foreground: 340 15% 8%;
 
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 340 10% 15%;
+    --secondary-foreground: 320 20% 95%;
 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --muted: 340 10% 15%;
+    --muted-foreground: 320 10% 65%;
 
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 340 10% 15%;
+    --accent-foreground: 320 20% 95%;
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 50%;
+    --destructive-foreground: 320 20% 95%;
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
+    --border: 340 10% 18%;
+    --input: 340 10% 18%;
+    --ring: 330 85% 65%;
+
+    /* Dark romantic colors */
+    --rose: 330 85% 65%;
+    --rose-light: 330 60% 75%;
+    --rose-dark: 330 85% 50%;
+    --purple: 280 60% 70%;
+    --purple-light: 280 40% 80%;
+    --lavender: 260 30% 25%;
+    --gold: 45 80% 70%;
+    --cream: 340 15% 12%;
+
+    --gradient-romantic: linear-gradient(135deg, hsl(var(--rose-dark)) 0%, hsl(var(--purple)) 100%);
+    --gradient-subtle: linear-gradient(180deg, hsl(var(--cream)) 0%, hsl(var(--lavender)) 100%);
+    --shadow-romantic: 0 20px 40px -12px hsl(var(--rose) / 0.4);
+    --shadow-soft: 0 10px 30px -10px hsl(var(--purple) / 0.3);
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;
@@ -100,6 +139,69 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans;
+    background: var(--gradient-subtle);
+    min-height: 100vh;
+  }
+
+  .romantic-gradient {
+    background: var(--gradient-romantic);
+  }
+
+  .glass-effect {
+    background: var(--gradient-card);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .text-gradient {
+    background: var(--gradient-romantic);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .shadow-romantic {
+    box-shadow: var(--shadow-romantic);
+  }
+
+  .shadow-soft {
+    box-shadow: var(--shadow-soft);
+  }
+
+  .transition-smooth {
+    transition: var(--transition-smooth);
+  }
+
+  .transition-bounce {
+    transition: var(--transition-bounce);
+  }
+
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .animate-pulse-soft {
+    animation: pulse-soft 3s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+  }
+
+  @keyframes pulse-soft {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+  }
+
+  @keyframes heart-beat {
+    0%, 100% { transform: scale(1); }
+    25%, 75% { transform: scale(1.1); }
+    50% { transform: scale(1.05); }
+  }
+
+  .animate-heart-beat {
+    animation: heart-beat 2s ease-in-out infinite;
   }
 }
