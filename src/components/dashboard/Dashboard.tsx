@@ -1,24 +1,33 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Heart, MessageCircle, Calendar, Gift, Plus, Settings, User } from "lucide-react";
+import { Heart, MessageCircle, Calendar, Gift, Plus, Settings, User, ShoppingBag, Activity, Map } from "lucide-react";
 import { MobileContainer } from "@/components/layout/MobileContainer";
 import { UserData } from "@/components/onboarding/SignupForm";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
+import { FirstLoveLetter } from "@/components/features/FirstLoveLetter";
+import { Chat } from "@/components/features/Chat";
+import { Timeline } from "@/components/features/Timeline";
+import { PeriodTracker } from "@/components/features/PeriodTracker";
+import { GiftStore } from "@/components/features/GiftStore";
+import { Profile } from "@/components/features/Profile";
+
+type DashboardView = "home" | "loveLetter" | "chat" | "timeline" | "periodTracker" | "giftStore" | "profile";
 
 interface DashboardProps {
   userData: UserData;
 }
 
 export const Dashboard = ({ userData }: DashboardProps) => {
+  const [currentView, setCurrentView] = useState<DashboardView>("home");
   const [currentMood, setCurrentMood] = useState<string>("😊");
   
   const quickActions = [
-    { icon: MessageCircle, label: "Send Message", variant: "romantic" as const },
-    { icon: Heart, label: "Share Mood", variant: "soft" as const },
-    { icon: Gift, label: "Send Gift", variant: "outline" as const },
-    { icon: Calendar, label: "Plan Date", variant: "ghost" as const },
+    { icon: MessageCircle, label: "Send Message", variant: "romantic" as const, action: () => setCurrentView("chat") },
+    { icon: Heart, label: "Share Mood", variant: "soft" as const, action: () => {} },
+    { icon: Gift, label: "Send Gift", variant: "outline" as const, action: () => setCurrentView("giftStore") },
+    { icon: Calendar, label: "Plan Date", variant: "ghost" as const, action: () => setCurrentView("timeline") },
   ];
 
   const recentMemories = [
@@ -27,6 +36,46 @@ export const Dashboard = ({ userData }: DashboardProps) => {
     { date: "2 days ago", title: "First love letter sent", type: "letter" },
   ];
 
+  // Navigation handlers
+  const handleBackToHome = () => setCurrentView("home");
+
+  // Render different views
+  if (currentView === "loveLetter") {
+    return (
+      <FirstLoveLetter 
+        onBack={handleBackToHome} 
+        onLetterSent={handleBackToHome}
+      />
+    );
+  }
+
+  if (currentView === "chat") {
+    return <Chat onBack={handleBackToHome} />;
+  }
+
+  if (currentView === "timeline") {
+    return <Timeline onBack={handleBackToHome} />;
+  }
+
+  if (currentView === "periodTracker") {
+    return <PeriodTracker onBack={handleBackToHome} />;
+  }
+
+  if (currentView === "giftStore") {
+    return <GiftStore onBack={handleBackToHome} />;
+  }
+
+  if (currentView === "profile") {
+    return (
+      <Profile 
+        userData={userData} 
+        onBack={handleBackToHome}
+        onEditProfile={() => {}}
+      />
+    );
+  }
+
+  // Home dashboard view
   return (
     <MobileContainer>
       <div className="min-h-screen">
@@ -43,7 +92,7 @@ export const Dashboard = ({ userData }: DashboardProps) => {
               <p className="text-sm text-muted-foreground">Ready to connect?</p>
             </div>
           </div>
-          <Button variant="ghost" size="icon">
+          <Button variant="ghost" size="icon" onClick={() => setCurrentView("profile")}>
             <Settings className="w-5 h-5" />
           </Button>
         </div>
@@ -60,6 +109,17 @@ export const Dashboard = ({ userData }: DashboardProps) => {
                 <Button variant="soft" size="sm">
                   <Plus className="w-4 h-4 mr-1" />
                   Invite
+                </Button>
+              </div>
+              <div className="mt-3 pt-3 border-t border-white/10">
+                <Button 
+                  variant="romantic" 
+                  size="sm" 
+                  className="w-full"
+                  onClick={() => setCurrentView("loveLetter")}
+                >
+                  <Heart className="w-4 h-4 mr-2" />
+                  Write First Love Letter
                 </Button>
               </div>
             </CardContent>
@@ -109,6 +169,7 @@ export const Dashboard = ({ userData }: DashboardProps) => {
                 key={index}
                 variant={action.variant}
                 className="h-20 flex-col space-y-1"
+                onClick={action.action}
               >
                 <action.icon className="w-6 h-6" />
                 <span className="text-xs">{action.label}</span>
@@ -117,11 +178,39 @@ export const Dashboard = ({ userData }: DashboardProps) => {
           </div>
         </div>
 
+        {/* Additional Quick Actions */}
+        <div className="px-6 mb-6">
+          <div className="grid grid-cols-3 gap-3">
+            <Button 
+              variant="soft" 
+              className="h-16 flex-col space-y-1"
+              onClick={() => setCurrentView("periodTracker")}
+            >
+              <Activity className="w-5 h-5" />
+              <span className="text-xs">Health</span>
+            </Button>
+            <Button variant="soft" className="h-16 flex-col space-y-1">
+              <Map className="w-5 h-5" />
+              <span className="text-xs">Location</span>
+            </Button>
+            <Button 
+              variant="soft" 
+              className="h-16 flex-col space-y-1"
+              onClick={() => setCurrentView("timeline")}
+            >
+              <Calendar className="w-5 h-5" />
+              <span className="text-xs">Timeline</span>
+            </Button>
+          </div>
+        </div>
+
         {/* Recent Memories */}
         <div className="px-6 mb-6">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-semibold">Recent Memories</h2>
-            <Button variant="ghost" size="sm">View All</Button>
+            <Button variant="ghost" size="sm" onClick={() => setCurrentView("timeline")}>
+              View All
+            </Button>
           </div>
           
           <div className="space-y-3">
@@ -148,13 +237,14 @@ export const Dashboard = ({ userData }: DashboardProps) => {
           <div className="glass-effect border-t border-white/20 p-4">
             <div className="flex justify-around">
               {[
-                { icon: Heart, label: "Home", active: true },
-                { icon: MessageCircle, label: "Chat" },
-                { icon: Calendar, label: "Timeline" },
-                { icon: User, label: "Profile" },
+                { icon: Heart, label: "Home", active: true, action: () => setCurrentView("home") },
+                { icon: MessageCircle, label: "Chat", action: () => setCurrentView("chat") },
+                { icon: Calendar, label: "Timeline", action: () => setCurrentView("timeline") },
+                { icon: User, label: "Profile", action: () => setCurrentView("profile") },
               ].map((item, index) => (
                 <button
                   key={index}
+                  onClick={item.action}
                   className={`flex flex-col items-center space-y-1 p-2 rounded-lg transition-smooth ${
                     item.active 
                       ? "text-primary bg-primary/10" 
