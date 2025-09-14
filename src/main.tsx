@@ -1,7 +1,21 @@
+import React from "react";
+import { createRoot } from "react-dom/client";
+import "./index.css";
 
-  import { createRoot } from "react-dom/client";
-  import App from "./App.tsx";
-  import "./index.css";
+function App() {
+  return (
+    <div className="min-h-screen bg-background text-foreground">
+      <div className="container mx-auto px-4 py-8">
+        <h1 className="text-2xl font-bold text-center">
+          Couples Relationship Mobile App
+        </h1>
+        <p className="text-center mt-4 text-muted-foreground">
+          Connected to Supabase project: luvo
+        </p>
+      </div>
+    </div>
+  );
+}
 
-  createRoot(document.getElementById("root")!).render(<App />);
-  
+const root = createRoot(document.getElementById("root")!);
+root.render(<App />);
