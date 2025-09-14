@@ -1,21 +1,19 @@
-import React from "react";
-import { createRoot } from "react-dom/client";
-import "./index.css";
+import React from 'react';
+import { createRoot } from 'react-dom/client';
+import './index.css';
 
 function App() {
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      <div className="container mx-auto px-4 py-8">
-        <h1 className="text-2xl font-bold text-center">
-          Couples Relationship Mobile App
-        </h1>
-        <p className="text-center mt-4 text-muted-foreground">
-          Connected to Supabase project: luvo
-        </p>
-      </div>
+    <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif' }}>
+      <h1>Hello World</h1>
+      <p>Couples Relationship Mobile App</p>
+      <p>Connected to Supabase project: luvo</p>
     </div>
   );
 }
 
-const root = createRoot(document.getElementById("root")!);
-root.render(<App />);
+const rootElement = document.getElementById('root');
+if (rootElement) {
+  const root = createRoot(rootElement);
+  root.render(<App />);
+}
