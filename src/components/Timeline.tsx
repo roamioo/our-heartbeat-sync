@@ -74,7 +74,7 @@ export default function Timeline({ user, partner, session }: TimelineProps) {
     return new Promise((resolve) => {
       const canvas = document.createElement('canvas');
       const ctx = canvas.getContext('2d');
-      const img = new Image();
+      const img = document.createElement('img');
       
       img.onload = () => {
         // Calculate new dimensions

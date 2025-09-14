@@ -67,26 +67,6 @@ export default function TimelineMemories({ user, partner, session, viewMode = 'g
     }
   };
 
-  const eventTypes = [
-    { value: 'memory', label: '📸 Memory', icon: Camera, color: 'from-blue-400 to-purple-400' },
-    { value: 'date', label: '💕 Date', icon: Heart, color: 'from-pink-400 to-red-400' },
-    { value: 'gift', label: '🎁 Gift', icon: Gift, color: 'from-yellow-400 to-orange-400' },
-    { value: 'milestone', label: '🎉 Milestone', icon: Sparkles, color: 'from-green-400 to-teal-400' },
-    { value: 'trip', label: '✈️ Trip', icon: MapPin, color: 'from-indigo-400 to-blue-400' },
-    { value: 'journal', label: '📝 Journal', icon: Book, color: 'from-purple-400 to-pink-400' },
-    { value: 'other', label: '🌟 Other', icon: Plus, color: 'from-gray-400 to-slate-400' },
-  ];
-
-  const getEventIcon = (eventType: string) => {
-    const type = eventTypes.find(t => t.value === eventType);
-    return type?.icon || Camera;
-  };
-
-  const getEventColor = (eventType: string) => {
-    const type = eventTypes.find(t => t.value === eventType);
-    return type?.color || 'from-gray-400 to-gray-500';
-  };
-
   const formatEventDate = (date: string) => {
     const eventDate = new Date(date);
     return eventDate.toLocaleDateString('en-US', { 
@@ -119,7 +99,7 @@ export default function TimelineMemories({ user, partner, session, viewMode = 'g
           <div className="flex gap-1">
             <Button
               size="sm"
-              variant={view === 'grid' ? 'default' : 'outline'}
+              variant="default"
               onClick={() => setView('grid')}
               className="px-2"
             >
@@ -127,7 +107,7 @@ export default function TimelineMemories({ user, partner, session, viewMode = 'g
             </Button>
             <Button
               size="sm"
-              variant={view === 'list' ? 'default' : 'outline'}
+              variant="outline"
               onClick={() => setView('list')}
               className="px-2"
             >
@@ -194,7 +174,7 @@ export default function TimelineMemories({ user, partner, session, viewMode = 'g
         <div className="flex gap-1">
           <Button
             size="sm"
-            variant={view === 'grid' ? 'default' : 'outline'}
+            variant="outline"
             onClick={() => setView('grid')}
             className="px-2"
           >
@@ -202,7 +182,7 @@ export default function TimelineMemories({ user, partner, session, viewMode = 'g
           </Button>
           <Button
             size="sm"
-            variant={view === 'list' ? 'default' : 'outline'}
+            variant="default"
             onClick={() => setView('list')}
             className="px-2"
           >
@@ -220,86 +200,77 @@ export default function TimelineMemories({ user, partner, session, viewMode = 'g
         </div>
       ) : (
         <div className="space-y-4">
-          {events.map((event, index) => {
-            const EventIcon = getEventIcon(event.event_type);
-            
-            return (
-              <Card key={event.id} className="p-4 relative">
-                {/* Timeline line */}
-                {index < events.length - 1 && (
-                  <div className="absolute left-8 top-16 w-px h-8 bg-gradient-to-b from-pink-200 to-purple-200" />
-                )}
+          {events.map((event) => (
+            <Card key={event.id} className="p-4">
+              <div className="flex gap-4">
+                {/* Event Icon */}
+                <div className="w-12 h-12 rounded-full bg-gradient-to-r from-pink-400 to-purple-400 flex items-center justify-center flex-shrink-0">
+                  <Camera className="w-6 h-6 text-white" />
+                </div>
                 
-                <div className="flex gap-4">
-                  {/* Event Icon */}
-                  <div className={`w-12 h-12 rounded-full bg-gradient-to-r ${getEventColor(event.event_type)} flex items-center justify-center flex-shrink-0`}>
-                    <EventIcon className="w-6 h-6 text-white" />
-                  </div>
-                  
-                  {/* Event Content */}
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-start justify-between mb-2">
-                      <div>
-                        <h3 className="font-medium text-gray-800">{event.title}</h3>
-                        <p className="text-sm text-gray-600">
-                          by {event.created_by?.name || 'You'} • {formatEventDate(event.event_date)}
-                        </p>
-                      </div>
-                      
-                      {event.is_milestone && (
-                        <Badge variant="secondary" className="bg-yellow-100 text-yellow-800 flex-shrink-0">
-                          <Sparkles className="w-3 h-3 mr-1" />
-                          Milestone
-                        </Badge>
-                      )}
+                {/* Event Content */}
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-start justify-between mb-2">
+                    <div>
+                      <h3 className="font-medium text-gray-800">{event.title}</h3>
+                      <p className="text-sm text-gray-600">
+                        by {event.created_by?.name || 'You'} • {formatEventDate(event.event_date)}
+                      </p>
                     </div>
                     
-                    <p className="text-gray-700 mb-3">{event.description}</p>
-                    
-                    {event.location_name && (
-                      <div className="flex items-center gap-1 text-sm text-gray-500 mb-2">
-                        <MapPin className="w-4 h-4" />
-                        <span>{event.location_name}</span>
-                      </div>
-                    )}
-                    
-                    {event.media_urls && event.media_urls.length > 0 && (
-                      <div className="mt-3">
-                        {event.media_urls.length === 1 ? (
-                          <div className="rounded-xl overflow-hidden">
-                            <ImageWithFallback
-                              src={event.media_urls[0]}
-                              alt="Memory"
-                              className="w-full h-64 object-cover"
-                            />
-                          </div>
-                        ) : (
-                          <div className="grid grid-cols-2 gap-2">
-                            {event.media_urls.slice(0, 4).map((url, idx) => (
-                              <div key={idx} className="relative rounded-lg overflow-hidden">
-                                <ImageWithFallback
-                                  src={url}
-                                  alt={`Memory ${idx + 1}`}
-                                  className="w-full h-32 object-cover"
-                                />
-                                {idx === 3 && event.media_urls.length > 4 && (
-                                  <div className="absolute inset-0 bg-black/50 flex items-center justify-center rounded-lg">
-                                    <span className="text-white font-medium">
-                                      +{event.media_urls.length - 4}
-                                    </span>
-                                  </div>
-                                )}
-                              </div>
-                            ))}
-                          </div>
-                        )}
-                      </div>
+                    {event.is_milestone && (
+                      <Badge variant="secondary" className="bg-yellow-100 text-yellow-800 flex-shrink-0">
+                        <Sparkles className="w-3 h-3 mr-1" />
+                        Milestone
+                      </Badge>
                     )}
                   </div>
+                  
+                  <p className="text-gray-700 mb-3">{event.description}</p>
+                  
+                  {event.location_name && (
+                    <div className="flex items-center gap-1 text-sm text-gray-500 mb-2">
+                      <MapPin className="w-4 h-4" />
+                      <span>{event.location_name}</span>
+                    </div>
+                  )}
+                  
+                  {event.media_urls && event.media_urls.length > 0 && (
+                    <div className="mt-3">
+                      {event.media_urls.length === 1 ? (
+                        <div className="rounded-xl overflow-hidden">
+                          <ImageWithFallback
+                            src={event.media_urls[0]}
+                            alt="Memory"
+                            className="w-full h-64 object-cover"
+                          />
+                        </div>
+                      ) : (
+                        <div className="grid grid-cols-2 gap-2">
+                          {event.media_urls.slice(0, 4).map((url, idx) => (
+                            <div key={idx} className="relative rounded-lg overflow-hidden">
+                              <ImageWithFallback
+                                src={url}
+                                alt={`Memory ${idx + 1}`}
+                                className="w-full h-32 object-cover"
+                              />
+                              {idx === 3 && event.media_urls.length > 4 && (
+                                <div className="absolute inset-0 bg-black/50 flex items-center justify-center rounded-lg">
+                                  <span className="text-white font-medium">
+                                    +{event.media_urls.length - 4}
+                                  </span>
+                                </div>
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </div>
-              </Card>
-            );
-          })}
+              </div>
+            </Card>
+          ))}
         </div>
       )}
     </div>
